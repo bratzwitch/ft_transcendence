@@ -4,7 +4,6 @@
 ### Как запустить
 
 * Скачать репозиторий =)
-* добавить в корень проекта .env файл, за содержимым - к Максу
 * для двухфакторной авторизации нужно установить на телефон Google Authentificator ( https://apps.apple.com/us/app/google-authenticator/id388497605	/	https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2 ), этим приложением отсканировать qr код ./data/OTP/QR.png, он позволит проходить авторизацию с логином-паролем админа.
 * `npm i`
 * `npm run build`
