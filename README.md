@@ -1,6 +1,9 @@
 # Привет, лунатики!
 
 
+HTML в public/index.html
+CSS в src/styles/styles.css
+
 ### Как запустить
 
 * Скачать репозиторий =)
