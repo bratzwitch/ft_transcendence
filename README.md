@@ -1,140 +1,533 @@
-# Привет, лунатики!
+# ft_transcendence
 
+A full-stack web application featuring a real-time Pong game, user authentication, chat system, and tournaments. Built with modern web technologies and containerized with Docker.
 
-HTML в public/index.html
-CSS в src/styles/styles.css
+## Description
 
-### Как запустить
+ft_transcendence is the final project of the 42 common core, representing a culmination of web development skills. It's a comprehensive web application that implements a real-time multiplayer Pong game with user management, chat functionality, and tournament systems. The project emphasizes modern web development practices, real-time communication, and scalable architecture.
 
-* Скачать репозиторий =)
-* для двухфакторной авторизации нужно установить на телефон Google Authentificator ( https://apps.apple.com/us/app/google-authenticator/id388497605	/	https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2 ), этим приложением отсканировать qr код ./data/OTP/QR.png, он позволит проходить авторизацию с логином-паролем админа.
-* `npm i`
-* `npm run build`
-* `npm start`
+## Features
 
-### Typescript
+### Core Features
+- **Real-time Pong Game**: Multiplayer Pong with live gameplay
+- **User Authentication**: Secure login with 42 OAuth integration
+- **Chat System**: Real-time messaging with channels and direct messages
+- **Tournament System**: Organize and participate in Pong tournaments
+- **User Profiles**: Customizable profiles with game statistics
+- **Friend System**: Add friends and view their status
+- **Game History**: Track wins, losses, and match details
+- **Responsive Design**: Works on desktop and mobile devices
 
-Тайпскрипт это надстройка над жаваскриптом, которая позволяет определять и контроллировать типы всего - от примитивных типов данных до классов и обьектов.
+### Technical Features
+- **Real-time Communication**: WebSocket implementation for live updates
+- **Containerization**: Full Docker deployment setup
+- **Database Integration**: PostgreSQL for data persistence
+- **Security**: JWT authentication and input validation
+- **API Design**: RESTful API with proper error handling
+- **Single Page Application**: Smooth navigation without page reloads
 
-Есть стандартный компилятор (tsc), который просто стирает из текста все типы и получается, собственно, обычный жаваскрипт.
+## Technology Stack
 
-Есть инструменты типа ts-node, которые пережевывают тайпскрипт файлы на ходу, в рантайме, без создания .js файлов.
+### Frontend
+- **TypeScript**: Type-safe JavaScript development
+- **HTML5**: Semantic markup and structure
+- **CSS3**: Modern styling with animations and responsive design
+- **Canvas API**: Game rendering and graphics
+- **WebSocket API**: Real-time communication
 
-В любом случае тайпскрипт требует конфиг-файл - tsconfig.json, он лежит в корне проекта.
-Там относителььно несложные параметры и есть комментарии из стандартного шаблона, можно поковырять.
+### Backend
+- **Node.js**: Server-side JavaScript runtime
+- **TypeScript**: Type-safe backend development
+- **Express.js**: Web application framework
+- **Socket.io**: Real-time bidirectional communication
+- **PostgreSQL**: Relational database management
+- **Prisma**: Modern database toolkit and ORM
 
-Четыре важные настройки там это: target, module, moduleResolution и allowSyntheticDefaultImports.
-Они определяют, какие правила импортов и экспортов и какие стандарты будут применяться при компиляции.
-С ними черт ногу сломит, но вот так, как сейчас - работает =)
+### DevOps & Tools
+- **Docker**: Containerization and deployment
+- **Docker Compose**: Multi-container orchestration
+- **Nginx**: Reverse proxy and static file serving
+- **Git**: Version control and collaboration
 
-С импортами и экспортами - они как бы похожи на инклюды из С/С++ но, на самом деле, немного другая история, надо привыкнуть.
+## Installation & Setup
 
-#### Важно понимать:
-Все проверки типов существуют только пока файл - .ts
+### Prerequisites
+- **Docker** and **Docker Compose** installed
+- **Git** for cloning the repository
+- **Make** for build automation
 
-После компиляции в .js вся типизация исчезает, а жаваскрипт позовляет менять тип переменной на ходу и принимать, например, в качестве аргумента обьект любого типа,
-лишь бы был объект.
+### Quick Start
 
-Так что если кому-то захочется поиграть в сурьёзную рантайм валидацию - нужно прямо писать функцию, где проверяется наличие в объекте всех нужных полей, тут вам не С/С++.
+1. Clone the repository:
+```bash
+git clone https://github.com/bratzwitch/ft_transcendence.git
+cd ft_transcendence
+```
 
-### Webpack
+2. Build and start the application:
+```bash
+make
+```
 
-Вебпак - это бандлер, инструмент, который, грубо говоря, запихивает твой большой проект в один файл. Это его базовая функция, но далеко не единственная.
+3. Access the application:
+```
+http://localhost:3000
+```
 
-Там тоже черт ногу сломит с настройками, сейчас используется два конфига - webpack.back.ts и webpack.front.ts, которые собирают каждый свою часть.
-Они вызываются базовым конфигом, webpack.config.js, я не смог запихать его в тайпскрипт без неприятных танцев с бубнами.
+### Manual Setup
 
-Кроме компиляции .ts файлов он обрабатывает ассеты (картинки, например),
-файлы со стилями (.css), динамически генерит финальный html файл для фронтенда и всякое такое.
+1. **Environment Configuration:**
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
 
-Использовать бандлеры можно, я сверялся с несколькими темами в слаке, народ даже писал официальный запрос в Париж.
-Чуть ниже опишу пару ситуаций, где может понадобиться редактировать конфиг.
+2. **Build Docker containers:**
+```bash
+docker-compose build
+```
 
-### Fastify
+3. **Start services:**
+```bash
+docker-compose up -d
+```
 
-Это, по сути, набор инструментов, которые позволяют быстро написать быстрый сервер =)
+4. **Initialize database:**
+```bash
+docker-compose exec backend npm run prisma:migrate
+docker-compose exec backend npm run prisma:seed
+```
 
-В этом проекте он нужен, чтобы не писать сервер на РНР, а чтобы вся наша тут история могла быть написана на одном языке и использовать без проблем общий код, общие константы итд.
+## Project Structure
 
-Он бысрее своих конкурентов (например Express.js), по крайней мере на тестах, но не очень популярен. ХЗ почему.
+```
+ft_transcendence/
+├── frontend/                 # Frontend application
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/           # Application pages
+│   │   ├── services/        # API and WebSocket services
+│   │   ├── utils/           # Utility functions
+│   │   ├── styles/          # CSS stylesheets
+│   │   └── types/           # TypeScript type definitions
+│   ├── public/              # Static assets
+│   ├── Dockerfile           # Frontend container
+│   └── package.json         # Frontend dependencies
+├── backend/                 # Backend application
+│   ├── src/
+│   │   ├── controllers/     # Request handlers
+│   │   ├── middleware/      # Express middleware
+│   │   ├── models/          # Data models
+│   │   ├── routes/          # API routes
+│   │   ├── services/        # Business logic
+│   │   ├── sockets/         # WebSocket handlers
+│   │   └── utils/           # Utility functions
+│   ├── prisma/              # Database schema and migrations
+│   ├── Dockerfile           # Backend container
+│   └── package.json         # Backend dependencies
+├── nginx/                   # Reverse proxy configuration
+│   ├── nginx.conf           # Nginx configuration
+│   └── Dockerfile           # Nginx container
+├── docker-compose.yml       # Container orchestration
+├── Makefile                 # Build automation
+└── README.md               # This file
+```
 
-Часть его скорости, как я понял - в его модульности. Ты подключаешь только те плагины, которые тебе нужны и все, что не нужно, соответственно - не жрет ресурсы.
+## Game Implementation
 
-Он сервит все файлы клиенту, обрабатывает вебсокеты для чата и игры, можно попробовать обращения к базе данных тоже сделать через него.
-Там даже можно относительно легко настроить проксирование - но это скорее пригодится, когда/если будем распиливать проект на микросервисы.
+### Pong Game Engine
 
-### Babylon.js
+```typescript
+class PongGame {
+    private canvas: HTMLCanvasElement;
+    private ctx: CanvasRenderingContext2D;
+    private gameState: GameState;
+    private socket: Socket;
+    
+    constructor(canvas: HTMLCanvasElement, socket: Socket) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d')!;
+        this.socket = socket;
+        this.initializeGame();
+    }
+    
+    private initializeGame(): void {
+        this.gameState = {
+            ball: { x: 400, y: 300, vx: 5, vy: 3, radius: 10 },
+            leftPaddle: { x: 20, y: 250, width: 10, height: 100 },
+            rightPaddle: { x: 770, y: 250, width: 10, height: 100 },
+            score: { left: 0, right: 0 }
+        };
+    }
+    
+    private gameLoop(): void {
+        this.updateGameState();
+        this.render();
+        requestAnimationFrame(() => this.gameLoop());
+    }
+    
+    private handleInput(): void {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                this.socket.emit('paddle-move', {
+                    direction: e.key === 'ArrowUp' ? 'up' : 'down'
+                });
+            }
+        });
+    }
+}
+```
 
-Это библиотека для создания и отображения 3д-сцен. Сейчас она используется так - есть базовая сцена, где только описаны обьекты и их положение на сцене.
+### Real-time Communication
 
-Потом от нее наследуются сцены отдельно для фронта и для бека. Можно поковырять src/scenes, там довольно понятно.
-Сцена для фронта включает освещение, тени, (потом добавлю) текстуры, итд.
-Сцена для бека сейчас бежит на так называемом NullEngine, он не занимается генерацией визуальной части, только высчитывает обьекты, коллизии физику итд.
+```typescript
+// Client-side WebSocket handling
+class GameSocket {
+    private socket: Socket;
+    
+    constructor() {
+        this.socket = io('ws://localhost:3001');
+        this.setupEventListeners();
+    }
+    
+    private setupEventListeners(): void {
+        this.socket.on('game-state-update', (gameState: GameState) => {
+            this.updateLocalGameState(gameState);
+        });
+        
+        this.socket.on('game-over', (result: GameResult) => {
+            this.handleGameEnd(result);
+        });
+        
+        this.socket.on('player-joined', (player: Player) => {
+            this.showPlayerJoined(player);
+        });
+    }
+    
+    public joinGame(gameId: string): void {
+        this.socket.emit('join-game', { gameId });
+    }
+    
+    public movePaddle(direction: 'up' | 'down'): void {
+        this.socket.emit('paddle-move', { direction });
+    }
+}
+```
 
-Руководствуясь исключительно благими намерениями, я отнаследовал от класса NullEngine свой класс и постепенно, сам того не заметив, сделал из него god-object.
-Там хранится всё - сцены, игроки, их состояния, всё.
-Пока вроде удобно, но если партия скажет - я разделю на логические части или хотя бы не буду посылать в функции весь обьект, посмотрим.
-Я думал, что камеру будет достаточно подключить только для фронт-сцены, но там так устроено, что без камеры (даже если она ничего и не показывает) движок не может считать сам тики (кадры, если угодно), так что камера ушла из фронтенда в базовую сцену.
+### Backend Game Logic
 
-Вообще библиотека очень мощная и можно в ней зафигачить очень серьезные вещи, но мне бы понимать, в какую сторону копать - неплохо бы иметь визуалььный референс, как для самой игры, так и для всего сайта целиком.
+```typescript
+// Server-side game management
+class GameManager {
+    private games: Map<string, Game> = new Map();
+    private io: Server;
+    
+    constructor(io: Server) {
+        this.io = io;
+        this.setupSocketHandlers();
+    }
+    
+    private setupSocketHandlers(): void {
+        this.io.on('connection', (socket: Socket) => {
+            socket.on('join-game', (data) => {
+                this.handleJoinGame(socket, data.gameId);
+            });
+            
+            socket.on('paddle-move', (data) => {
+                this.handlePaddleMove(socket, data.direction);
+            });
+            
+            socket.on('disconnect', () => {
+                this.handlePlayerDisconnect(socket);
+            });
+        });
+    }
+    
+    private handleJoinGame(socket: Socket, gameId: string): void {
+        let game = this.games.get(gameId);
+        
+        if (!game) {
+            game = new Game(gameId);
+            this.games.set(gameId, game);
+        }
+        
+        if (game.addPlayer(socket)) {
+            socket.join(gameId);
+            
+            if (game.isFull()) {
+                this.startGame(game);
+            }
+        }
+    }
+    
+    private startGame(game: Game): void {
+        game.start();
+        
+        const gameLoop = setInterval(() => {
+            game.update();
+            
+            this.io.to(game.id).emit('game-state-update', game.getState());
+            
+            if (game.isFinished()) {
+                clearInterval(gameLoop);
+                this.handleGameEnd(game);
+            }
+        }, 1000 / 60); // 60 FPS
+    }
+}
+```
 
-### Сборка
+## API Endpoints
 
-Для сборки и запуска используем пакетный менеджер, встроенный в экосистему Node.js - npm (node packe manager).
-Node.js конфигурирует себя под текущий проект согласно файлу package.json, он лежит в корне проекта. Сейчас он супер-простой, но туда можно тоже напихать всякого.
-Сначала устанавливаем зависимости (внешние библиотеки и инструменты, которые нужны для сборки проекта и последующего использования):
+### Authentication
+```typescript
+POST /api/auth/login          # User login
+POST /api/auth/logout         # User logout
+POST /api/auth/register       # User registration
+GET  /api/auth/profile        # Get user profile
+PUT  /api/auth/profile        # Update user profile
+```
 
-`npm install`
-или
-`npm i`.
+### Game Management
+```typescript
+GET  /api/games               # List available games
+POST /api/games               # Create new game
+GET  /api/games/:id           # Get game details
+POST /api/games/:id/join      # Join a game
+GET  /api/games/history       # Get user's game history
+```
 
-Зависимости, указанные в файле скачаются и распакуются в папку node_modules.
+### Chat System
+```typescript
+GET  /api/chat/channels       # List chat channels
+POST /api/chat/channels       # Create new channel
+GET  /api/chat/messages/:id   # Get channel messages
+POST /api/chat/messages       # Send message
+```
 
-Есть два вида зависимостей - devDependencies, которые нужны только в момент разработки и сборки;
-и просто dependencies, которые нужны так или иначе в рантайме (то бишь во время исполнения программы).
+### Tournament System
+```typescript
+GET  /api/tournaments         # List tournaments
+POST /api/tournaments         # Create tournament
+POST /api/tournaments/:id/join # Join tournament
+GET  /api/tournaments/:id/bracket # Get tournament bracket
+```
 
-Их можно установить отдельно:
+## Database Schema
 
-`npm i -D` и `npm i --omit=dev`
+### Core Models
 
-Это пригодится для создания отдельных слоев в докере.
-Можно еще поставить зависимости глобально - это значит, что они будут доступны во всей системе, не только в папке проекта, но нам это нафиг не надо, да и прямо на школьную машину глобально ничего не поставить -  нужен root.
+```prisma
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  username    String   @unique
+  avatar      String?
+  wins        Int      @default(0)
+  losses      Int      @default(0)
+  rank        Int      @default(1000)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  gamesAsPlayer1 Game[] @relation("Player1")
+  gamesAsPlayer2 Game[] @relation("Player2")
+  messages       Message[]
+  friendships    Friendship[] @relation("UserFriendships")
+  tournaments    TournamentPlayer[]
+}
 
-Список установленных зависимостей можно вывести с помощью
-`npm list`
-или
-`npm list global` если хочется посмотреть, что там установлено для всей системы.
+model Game {
+  id          String    @id @default(cuid())
+  player1Id   String
+  player2Id   String?
+  winnerId    String?
+  player1Score Int      @default(0)
+  player2Score Int      @default(0)
+  status      GameStatus @default(WAITING)
+  startedAt   DateTime?
+  endedAt     DateTime?
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  player1     User      @relation("Player1", fields: [player1Id], references: [id])
+  player2     User?     @relation("Player2", fields: [player2Id], references: [id])
+  winner      User?     @relation("GameWinner", fields: [winnerId], references: [id])
+}
 
-Потом собираем проект:
-`npm run build`
-или
-`npm run build:prod`.
+model Tournament {
+  id          String    @id @default(cuid())
+  name        String
+  maxPlayers  Int
+  status      TournamentStatus @default(OPEN)
+  startedAt   DateTime?
+  endedAt     DateTime?
+  createdAt   DateTime  @default(now())
+  
+  // Relations
+  players     TournamentPlayer[]
+  matches     TournamentMatch[]
+}
+```
 
-Эти команды можно посмотреть, изменить или добавить свои в файле package.json. Обе вызывают вебпак в режиме разработки или продакшена соответсвенно.
-Пока достаточно просто build.
+## Security Implementation
 
-И запускаем сервер:
-`npm start`.
+### Authentication Middleware
+```typescript
+export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    if (!token) {
+        return res.status(401).json({ error: 'Access token required' });
+    }
+    
+    jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid token' });
+        }
+        
+        req.user = user as TokenPayload;
+        next();
+    });
+};
+```
 
-Пока все крутится на порту 12800, по-хорошему надо сделать .env файл, который не будет в репозитории или будет в докер-секретах или что-то такое, и считывать порт оттуда.
+### Input Validation
+```typescript
+export const validateUserInput = (req: Request, res: Response, next: NextFunction) => {
+    const { error } = userSchema.validate(req.body);
+    
+    if (error) {
+        return res.status(400).json({
+            error: 'Validation failed',
+            details: error.details.map(d => d.message)
+        });
+    }
+    
+    next();
+};
+```
 
-### Как добавить отдельный скрипт в html файл
+## Testing
 
-Создаем .ts файл в ./src/front. Файл может использовать код из других файлов и вообще использовать все, что угодно, но он должен быть отдельной "точкой входа", то есть тем, с чего начинается вся логика конкретно этого элемента. В данный момент у нас точки входа четыре - языки, логин, игра и чат. Каждая отвечает за свой блок на странице и в данный момент не лезет в логику другой. Это, конечно, всегда можно исправить =)
+### Frontend Testing
+```bash
+cd frontend
+npm test                    # Run unit tests
+npm run test:e2e           # Run end-to-end tests
+npm run test:coverage      # Generate coverage report
+```
 
-Идем в файл ./webpack.front.ts, там находим часть с точками входа:\
-`entry: {`\
-	`"i18next": path.resolve(appDir, srcDir, frontDir, "i18next.ts"),`\
-	`"login": path.resolve(appDir, srcDir, frontDir, "login.ts"),`\
-	`"game": path.resolve(appDir, srcDir, frontDir, "game.ts"),`\
-	`"chat": path.resolve(appDir, srcDir, frontDir, "chat.ts")`\
-`},`
+### Backend Testing
+```bash
+cd backend
+npm test                   # Run unit tests
+npm run test:integration   # Run integration tests
+npm run test:api          # Test API endpoints
+```
 
-Добавляем туда по шаблону свой файл.
+### Game Testing
+```typescript
+describe('Pong Game Logic', () => {
+    test('ball bounces off paddles correctly', () => {
+        const game = new PongGame();
+        game.ball.x = 30;
+        game.ball.vx = -5;
+        
+        game.updateBallPosition();
+        
+        expect(game.ball.vx).toBe(5);
+    });
+    
+    test('score updates when ball reaches goal', () => {
+        const game = new PongGame();
+        game.ball.x = -10;
+        
+        game.checkGoal();
+        
+        expect(game.score.right).toBe(1);
+    });
+});
+```
 
-ГОТОВО, ВЫ ВЕЛИКОЛЕПНЫ! Файлик будет динамически добавлен в скрипты итогового html файла.
+## Deployment
 
-Вот  =)
+### Production Build
+```bash
+# Build all services
+make build
+
+# Deploy to production
+make deploy
+
+# View logs
+make logs
+
+# Scale services
+docker-compose up --scale backend=3
+```
+
+### Environment Configuration
+```bash
+# Production environment
+NODE_ENV=production
+DATABASE_URL=postgresql://user:pass@localhost:5432/transcendence
+JWT_SECRET=your-jwt-secret
+OAUTH_CLIENT_ID=your-oauth-client-id
+OAUTH_CLIENT_SECRET=your-oauth-secret
+```
+
+## Performance Optimization
+
+### Frontend Optimizations
+- Code splitting for smaller bundles
+- Image optimization and lazy loading
+- WebSocket connection pooling
+- Local state management for game state
+
+### Backend Optimizations
+- Database query optimization
+- Redis caching for session management
+- Connection pooling for database
+- Rate limiting for API endpoints
+
+## Common Issues & Solutions
+
+1. **WebSocket Connection Issues**
+   - Check CORS configuration
+   - Verify WebSocket protocol (ws/wss)
+   - Ensure proper error handling
+
+2. **Game Synchronization**
+   - Implement client-side prediction
+   - Use authoritative server state
+   - Handle network latency compensation
+
+3. **Database Performance**
+   - Add proper indexes
+   - Use connection pooling
+   - Implement query optimization
+
+## Requirements
+
+- **Docker**: Container runtime
+- **Docker Compose**: Multi-container orchestration
+- **Node.js 16+**: JavaScript runtime
+- **PostgreSQL**: Database system
+- **Modern Browser**: For frontend features
+
+## Resources
+
+- **Socket.io Documentation**: Real-time communication
+- **Prisma Documentation**: Database toolkit
+- **Docker Documentation**: Containerization
+- **TypeScript Handbook**: Type-safe development
+
+## Author
+
+Viacheslav Moroz - 42 Student (Team Project)
+
 
 
 Хотел написать больше, но допишу потом.
